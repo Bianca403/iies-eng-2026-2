@@ -225,3 +225,6 @@ __pycache__/
 # Arquivos locais do curso
 alunos.json
 **/codigo_extraido.py
+
+criar_entregas.py
+extrair_codigo.py
