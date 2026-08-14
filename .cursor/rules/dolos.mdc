@@ -1,0 +1,102 @@
+# Dolos — Detecção de similaridade entre entregas
+
+## O que é
+
+Dolos é uma ferramenta open source para detecção de plágio em código e notebooks.
+Documentação: https://dolos.ugent.be
+
+## Quando usar
+
+Rodar o Dolos após o prazo de entrega de cada tarefa com código Python (a partir da tarefa 02).
+Não se aplica a tarefas sem código (ex: tarefa 01).
+
+## Instalação (uma vez)
+
+Requer Node.js instalado. Instalar globalmente:
+
+```bash
+npm install -g @dodona/dolos
+```
+
+Verificar instalação:
+
+```bash
+dolos --version
+```
+
+## Estrutura esperada
+
+O Dolos analisa os arquivos de entrega seguindo o padrão do repositório:
+
+```
+tarefas/
+└── XX-nome-da-tarefa/
+    └── entregas/
+        ├── joao-silva/
+        │   └── notebook.ipynb
+        └── maria-souza/
+            └── notebook.ipynb
+```
+
+## Fluxo de uso
+
+### 1. Extrair código dos notebooks
+
+Notebooks `.ipynb` são JSON — o Dolos não os lê diretamente.
+Rodar o script de extração antes de cada análise:
+
+```bash
+python extrair_codigo.py XX-nome-da-tarefa
+```
+
+O script gera arquivos `.py` em `tarefas/XX-nome-da-tarefa/entregas/*/codigo_extraido.py`.
+
+### 2. Rodar o Dolos
+
+```bash
+dolos run -l python tarefas/XX-nome-da-tarefa/entregas/*/codigo_extraido.py
+```
+
+### 3. Ver o relatório
+
+O Dolos gera um relatório HTML local. Abrir no navegador:
+
+```bash
+dolos run -l python --output-format html tarefas/XX-nome-da-tarefa/entregas/*/codigo_extraido.py
+```
+
+O relatório mostra:
+- Gráfico de similaridade entre todos os alunos
+- Percentual de similaridade por par
+- Comparação lado a lado com trechos idênticos destacados
+
+## Interpretação
+
+| Similaridade | Interpretação |
+|---|---|
+| < 50% | Normal — estrutura parecida é esperada |
+| 50% – 70% | Atenção — verificar manualmente |
+| > 70% | Suspeito — comparar com histórico de commits |
+
+Similaridade alta não é prova de plágio — sempre cruzar com:
+- Histórico de commits (data, horário, frequência)
+- Resposta do aluno no `pull_request_template.md`
+- Seção "Explique com suas palavras" da PR
+
+## Script de extração
+
+O arquivo `extrair_codigo.py` na raiz do repo faz a extração.
+Sempre rodar antes do Dolos — nunca commitar os arquivos `.py` gerados.
+
+Adicionar ao `.gitignore`:
+
+```
+**/codigo_extraido.py
+```
+
+## O que NÃO fazer
+
+- Não rodar o Dolos no notebook base — só nas entregas dos alunos
+- Não commitar os arquivos extraídos (`codigo_extraido.py`)
+- Não concluir plágio só pelo percentual — sempre analisar o contexto
+- Não rodar em tarefas sem código Python

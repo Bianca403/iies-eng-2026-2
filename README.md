@@ -78,6 +78,14 @@ Acesse o repositório no GitHub. Clique em **Compare & pull request**, preencha 
 ├── recursos/               ← tutoriais e guias de apoio
 ├── tarefas/
 │   ├── 01-hello-world-github/
+│   │   ├── README.md       ← enunciado
+│   │   └── entregas/
+│   │       └── seu-nome/   ← você cria esta pasta
+│   ├── 02-variaveis-e-prints/
+│   │   ├── README.md
+│   │   ├── notebook.ipynb  ← base para completar
+│   │   └── entregas/
+│   │       └── seu-nome/
 │   └── ...
 └── .github/
     └── pull_request_template.md

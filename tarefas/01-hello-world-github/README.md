@@ -25,7 +25,7 @@ Consulte `recursos/guia-markdown.md` se tiver dúvida sobre a sintaxe.
 
 1. Crie sua branch: `tarefa-01/seu-nome`
 2. Crie o arquivo em: `tarefas/01-hello-world-github/entregas/seu-nome/README.md`
-3. Faça o commit: `tarefa-01: apresentacao seu-nome`
+3. Faça o commit: `tarefa-01: resolução seu-nome`
 4. Abra o Pull Request no GitHub
 
 Dúvidas sobre o fluxo? Consulte `recursos/tutorial-vscode.md`.
