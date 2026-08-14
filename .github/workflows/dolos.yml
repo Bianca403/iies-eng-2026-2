@@ -1,0 +1,65 @@
+name: Dolos — verificação de similaridade
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - "tarefas/**/entregas/**/notebook.ipynb"
+
+jobs:
+  dolos:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar Dolos
+        run: npm install -g @dodona/dolos
+
+      - name: Detectar tarefa da PR
+        id: tarefa
+        run: |
+          TAREFA=$(echo "${{ github.event.pull_request.head.ref }}" | sed 's|tarefa-||' | cut -d'/' -f1)
+          PASTA=$(ls tarefas/ | grep "^$TAREFA-" | head -1)
+          echo "pasta=$PASTA" >> $GITHUB_OUTPUT
+
+      - name: Extrair código dos notebooks
+        run: python extrair_codigo.py ${{ steps.tarefa.outputs.pasta }}
+
+      - name: Verificar arquivos extraídos
+        id: check
+        run: |
+          COUNT=$(find tarefas/${{ steps.tarefa.outputs.pasta }}/entregas -name "codigo_extraido.py" | wc -l)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Rodar Dolos
+        if: steps.check.outputs.count > 1
+        run: |
+          dolos run -l python \
+            --output-format html \
+            --output-destination dolos-report \
+            tarefas/${{ steps.tarefa.outputs.pasta }}/entregas/*/codigo_extraido.py
+
+      - name: Salvar relatório como artefato
+        if: steps.check.outputs.count > 1
+        uses: actions/upload-artifact@v4
+        with:
+          name: dolos-${{ steps.tarefa.outputs.pasta }}
+          path: dolos-report/
+          retention-days: 30
+
+      - name: Aviso se poucos alunos
+        if: steps.check.outputs.count <= 1
+        run: echo "Apenas ${{ steps.check.outputs.count }} entrega encontrada — Dolos requer pelo menos 2 para comparar."

@@ -1,0 +1,71 @@
+# Padrão de criação de tarefas
+
+## Estrutura obrigatória
+
+Toda nova tarefa deve seguir exatamente esta estrutura:
+
+```
+tarefas/
+└── XX-nome-da-tarefa/          ← kebab-case, prefixo numérico com 2 dígitos
+    ├── README.md               ← enunciado
+    ├── notebook.ipynb          ← base para o aluno (se houver código)
+    └── entregas/
+        └── .gitkeep            ← mantém a pasta no git antes do script rodar
+```
+
+## Nomenclatura
+
+- Nome da pasta: `XX-nome-da-tarefa` em kebab-case
+  - Exemplos: `01-hello-world-github`, `02-variaveis-e-prints`
+- Branch do aluno: `tarefa-XX/nome-do-aluno`
+- Commit do aluno: `tarefa-XX: resolução nome-do-aluno`
+- Entrega do aluno: `tarefas/XX-nome-da-tarefa/entregas/nome-do-aluno/notebook.ipynb`
+
+## README da tarefa
+
+O `README.md` de cada tarefa deve conter:
+
+1. Título: `# Tarefa XX — Nome da Tarefa`
+2. Breve descrição do objetivo
+3. Lista do que será praticado
+4. Seção **Como entregar** com os 5 passos padrão:
+   - criar branch `tarefa-XX/seu-nome`
+   - abrir o arquivo indicado
+   - completar as células com `# SEU CÓDIGO AQUI`
+   - commit com mensagem padrão
+   - abrir Pull Request
+5. Prazo (sempre: "A data de abertura do Pull Request vale como data de entrega.")
+
+Nunca inclua critérios de avaliação ou gabarito no README público.
+
+## Notebook base
+
+- Células de markdown para contexto e instruções
+- Células de código com comentários guia: `# SEU CÓDIGO AQUI`
+- Nunca deixar código resolvido no notebook base
+- Sempre incluir uma seção `## Desafio opcional` ao final
+- Exemplo de saída esperada nos comentários de cada célula
+
+## Após criar a tarefa
+
+Rodar o script para criar as pastas dos alunos:
+
+```bash
+python criar_entregas.py XX-nome-da-tarefa
+```
+
+O script lê `alunos.json` na raiz e copia o `notebook.ipynb` base para cada pasta de aluno em `entregas/`.
+
+## Arquivos de suporte
+
+- `alunos.json` — lista de alunos na raiz do repo (não commitar dados sensíveis)
+- `criar_entregas.py` — script de criação das pastas de entrega
+- `.github/pull_request_template.md` — template de PR (não modificar por tarefa)
+
+## O que NÃO fazer
+
+- Não usar snake_case nos nomes de pasta (usar kebab-case)
+- Não commitar gabarito ou solução no repo
+- Não modificar o `pull_request_template.md` por tarefa
+- Não criar tarefas sem rodar o `criar_entregas.py` depois
+- Não subir a pasta `.venv/` (está no `.gitignore`)
