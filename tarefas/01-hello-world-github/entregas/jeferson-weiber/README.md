@@ -2,7 +2,7 @@
 
 ## Sobre o projeto
 
-Meu nome é Jeferson Weiber e sou estudante de engenharia civil, trabalho na área da contrução a 10 anos ,buscando desenvolver meus conhecimentos acadêmicos e profissionais. Tenho interesse em aprender novas ferramentas, ampliar minhas competências e construir uma base sólida para o futuro, com foco em crescimento contínuo, organização e colaboração.
+Meu nome é Bianca e sou estudante de engenharia civil, trabalho na área da contrução a 4 meses ,buscando desenvolver meus conhecimentos acadêmicos e profissionais como estagiria. Tenho interesse em aprender novas ferramentas, ampliar minhas competências e construir uma base sólida para o futuro, com foco em crescimento contínuo, organização e colaboração.
 
 ## Tecnologias
 
